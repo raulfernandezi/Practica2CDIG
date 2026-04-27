@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<QCARConfig>
-  <Tracking>
-    <ImageTarget name="5_treboles" size="50.000000 67.400879" />
-    <ImageTarget name="as_oros" size="50.000000 74.373398" />
-    <ImageTarget name="as_picas" size="50.000000 69.329773" />
-  </Tracking>
-</QCARConfig>
