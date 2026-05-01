@@ -24,6 +24,24 @@ public class Elemento:  MonoBehaviour
         AZUCARCANELA, PANDULCE, TORRIJA
     }
 
+    bool mostrarNombre = false;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            mostrarNombre = !mostrarNombre;
+        }
+    }
+
+    void OnGUI()
+    {
+        if (mostrarNombre)
+        {
+            GUI.TextField(new Rect(10, 10, 200, 20), "Nombre de prueba");
+        }
+    }
+
     public EventHandler<ElementoEventArgs> elementoDetectado;
 
     public EventHandler<ElementoEventArgs> elementoPerdido;
@@ -34,6 +52,7 @@ public class Elemento:  MonoBehaviour
 
     [SerializeField] private TipoElemento tipoElemento;
 
+    public TipoElemento GetTipoElemento() { return this.tipoElemento; }
 
     public static List<TipoElemento> GetListaUtensilios()
     {
