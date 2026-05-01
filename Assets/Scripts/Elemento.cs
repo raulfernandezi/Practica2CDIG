@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,21 @@ public class Elemento:  MonoBehaviour
     private static TipoElemento[] elementosPrincipales = { TipoElemento.BANDEJA, TipoElemento.PLATO, TipoElemento.SARTEN, TipoElemento.HUEVO
             , TipoElemento.AZUCAR, TipoElemento.AZUCARCANELA, TipoElemento.SARTENACEITE};
 
+    public static int NUM_UTENSILIOS = Elemento.utensilios.Length;
+    public static int NUM_INGREDIENTES = Elemento.ingredientesBasicos.Length;
+
     public enum TipoElemento
     {
         PAN, LECHE, HUEVO, AZUCAR, CANELA, ACEITE, BANDEJA, SARTEN, PLATO, PANMOJADO, PANREBOZADO, SARTENACEITE, PANFRITO,
         AZUCARCANELA, PANDULCE, TORRIJA
+    }
+
+    public EventHandler<ElementoEventArgs> elementoDetectado;
+
+    public EventHandler<ElementoEventArgs> elementoPerdido;
+
+    public class ElementoEventArgs : EventArgs {
+        public TipoElemento tipoElemento;
     }
 
     [SerializeField] private TipoElemento tipoElemento;
@@ -38,7 +50,7 @@ public class Elemento:  MonoBehaviour
         return ingredientesBasicos.ToList();
     }
 
-    public static bool EsIngredientesBasico(TipoElemento elemento)
+    public static bool EsIngredienteBasico(TipoElemento elemento)
     {
         return GetListaIngredientesBasicos().Contains(elemento);
     }
@@ -51,5 +63,20 @@ public class Elemento:  MonoBehaviour
     public static bool EsElementoPrincipal(TipoElemento elemento)
     {
         return GetListaElementosPrincipales().Contains(elemento);
+    }
+
+    public void ElementoDetectado() {
+        elementoDetectado?.Invoke(this, new ElementoEventArgs
+        {
+            tipoElemento = tipoElemento
+        });
+    }
+
+    public void ElementoPerdido()
+    {
+        elementoPerdido?.Invoke(this, new ElementoEventArgs
+        {
+            tipoElemento = tipoElemento
+        });
     }
 }
