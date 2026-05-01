@@ -13,15 +13,16 @@ public class Controlador : MonoBehaviour
     private int numUtensilios;
     private int numIngredientes;
 
-    private void Start()
+    void Start()
     {
         foreach(Elemento e in elementos)
         {
             e.elementoDetectado += DeteccionElemento;
+            e.elementoPerdido += DeteccionPerdido;
         }
         numIngredientes = 0;
         numUtensilios = 0;
-        textoReceta.text = ActualizarTextoReceta();
+        ActualizarTextoReceta();
     }
 
 
@@ -36,23 +37,38 @@ public class Controlador : MonoBehaviour
         ActualizarTextoReceta();
     }
 
-    private string ActualizarTextoReceta() {
-        string result;
+    private void DeteccionPerdido(object o, ElementoEventArgs e)
+    {
+        if (Elemento.EsUtensilio(e.tipoElemento))
+        {
+            numUtensilios++;
+        }
+        if (Elemento.EsIngredienteBasico(e.tipoElemento))
+        {
+            numIngredientes++;
+        }
+        ActualizarTextoReceta();
+    }
+
+    private void ActualizarTextoReceta() {
         if (numUtensilios < Elemento.NUM_UTENSILIOS && numIngredientes < Elemento.NUM_INGREDIENTES)
         {
-            result = "Faltan elementos";
+            textoReceta.text = "Faltan elementos";
+            textoReceta.color = Color.red;
         }
         else if (numUtensilios < Elemento.NUM_UTENSILIOS)
         {
-            result = "Faltan utensilios";
+            textoReceta.text = "Faltan utensilios";
+            textoReceta.color = Color.red;
         }
         else if (numIngredientes < Elemento.NUM_INGREDIENTES)
         {
-            result = "Faltan ingredientes";
+            textoReceta.text = "Faltan ingredientes";
+            textoReceta.color = Color.red;
         }
         else {
-            result = "Receta completa";
+            textoReceta.text = "Receta completa";
+            textoReceta.color = Color.green;
         }
-        return result;
     }
 }
