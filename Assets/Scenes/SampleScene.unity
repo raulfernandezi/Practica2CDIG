@@ -172,8 +172,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6683c84d5146508409920f33e2377e85, type: 2}
   textoReceta: {fileID: 545941690}
   prefabs:
-  - tipoElemento: 0
-    image: {fileID: 0}
+  - tipoElemento: 9
+    image: {fileID: 1600730590943176910, guid: 72cd50033d549d240b3045839542aed5, type: 3}
+  - tipoElemento: 10
+    image: {fileID: 4786428147951788529, guid: 9d5e5d856841a1e409d36b19912d4837, type: 3}
+  - tipoElemento: 11
+    image: {fileID: 6574588018307606871, guid: 88b6ef7e06d78e045b1fd6b4997dead3, type: 3}
+  - tipoElemento: 12
+    image: {fileID: 8573267731096978206, guid: 6d4010840fc3c9945b626e34db015d22, type: 3}
+  - tipoElemento: 13
+    image: {fileID: 4770304671526774076, guid: 5b6d6f81458c4114b9f0ada8f820d58e, type: 3}
+  - tipoElemento: 14
+    image: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
+  - tipoElemento: 15
+    image: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
 --- !u!4 &103082408
 Transform:
   m_ObjectHideFlags: 0
