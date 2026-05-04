@@ -113,7 +113,7 @@ public class Controlador : MonoBehaviour
                     
                     if (!elementosActivos.Any(e => e.GetTipoElemento().Equals(resultado)))
                     {
-                        GameObject prefabAResultado = prefabs[].;
+                        GameObject prefabAResultado = prefabs.Find((p)=>p.tipoElemento.Equals(resultado)).prefab;
 
                         // Instanciamos el resultado en la posición del elemento principal
                         // (Asumiendo que la clase Elemento hereda de MonoBehaviour y tiene un Transform)
