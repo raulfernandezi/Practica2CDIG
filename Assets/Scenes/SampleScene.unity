@@ -152,9 +152,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da388617ccfae19478783d40b1f294c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elementos: []
-  recetas: []
-  textoReceta: {fileID: 0}
+  elementos:
+  - {fileID: 1614243800}
+  - {fileID: 1845271820}
+  - {fileID: 1265162754}
+  - {fileID: 1419292829}
+  - {fileID: 1427356970}
+  - {fileID: 474812214}
+  - {fileID: 889834411}
+  - {fileID: 1891620422}
+  - {fileID: 236292742}
+  recetas:
+  - {fileID: 11400000, guid: 9487d72989d4b484198f5661a6cf3638, type: 2}
+  - {fileID: 11400000, guid: 7e788def22363e44b94f5de15875206f, type: 2}
+  - {fileID: 11400000, guid: d4ed8c5024389764289bcdd3781ad407, type: 2}
+  - {fileID: 11400000, guid: e11f98bd52f2b0b40b399bb3eba63119, type: 2}
+  - {fileID: 11400000, guid: 8bc123064f481e043b5c2d2b56c4f4da, type: 2}
+  - {fileID: 11400000, guid: f4ddedaa783c92c42a4d4992b4557b09, type: 2}
+  - {fileID: 11400000, guid: 6683c84d5146508409920f33e2377e85, type: 2}
+  textoReceta: {fileID: 545941690}
+  prefabs:
+  - tipoElemento: 0
+    image: {fileID: 0}
 --- !u!4 &103082408
 Transform:
   m_ObjectHideFlags: 0
