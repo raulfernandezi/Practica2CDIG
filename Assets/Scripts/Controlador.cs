@@ -13,7 +13,7 @@ public class Controlador : MonoBehaviour
     List<Elemento> elementosActivos;
     [SerializeField] List<Receta> recetas;
     [SerializeField] TextMeshProUGUI textoReceta;
-    [SerializeField] TipoElementoPrefab[] prefabs;
+    [SerializeField] List<TipoElementoPrefab> prefabs;
      
     private int numUtensilios;
     private int numIngredientes;
@@ -22,7 +22,7 @@ public class Controlador : MonoBehaviour
     public struct TipoElementoPrefab
     {
         public TipoElemento tipoElemento;
-        public GameObject image;
+        public GameObject prefab;
     }
 
 
@@ -66,7 +66,70 @@ public class Controlador : MonoBehaviour
         ActualizarReceta();
         ActualizarTextoReceta();
     }
+    private void ActualizarReceta_Ver2()
+    {
+        foreach (Receta receta in recetas)
+        {
+            TipoElemento principal = receta.elementoPrincipal;
+            Elemento refPrincipal = null;
 
+            // 1. Buscamos si el elemento principal está activo y guardamos su referencia
+            foreach (Elemento elemento in elementosActivos)
+            {
+                if (elemento.GetTipoElemento().Equals(principal))
+                {
+                    refPrincipal = elemento;
+                    break;
+                }
+            }
+
+            // Si encontramos el elemento principal, comprobamos los ingredientes
+            if (refPrincipal != null)
+            {
+                // Copiamos la lista de ingredientes necesarios. 
+                // Usar Remove() es más seguro que un contador por si hay objetos del mismo tipo duplicados.
+                List<TipoElemento> ingredientesFaltantes = receta.ingredientes.ToList();
+
+                foreach (Elemento elemento in elementosActivos)
+                {
+                    // Si el elemento detectado es uno de los que nos falta, lo tachamos de la lista
+                    if (ingredientesFaltantes.Contains(elemento.GetTipoElemento()))
+                    {
+                        ingredientesFaltantes.Remove(elemento.GetTipoElemento());
+                    }
+
+                    // Si ya no faltan ingredientes, dejamos de buscar
+                    if (ingredientesFaltantes.Count == 0) { break; }
+                }
+
+                // 2. Si están todos los ingredientes presentes, creamos el resultado
+                if (ingredientesFaltantes.Count == 0)
+                {
+                    TipoElemento resultado = receta.resultado;
+
+                    // Comprobamos que no esté presente en escena
+                    
+                    if (!elementosActivos.Any(e => e.GetTipoElemento().Equals(resultado)))
+                    {
+                        GameObject prefabAResultado = prefabs[].;
+
+                        // Instanciamos el resultado en la posición del elemento principal
+                        // (Asumiendo que la clase Elemento hereda de MonoBehaviour y tiene un Transform)
+                        Instantiate(prefabAResultado, refPrincipal.transform.position, Quaternion.identity);
+
+                        Debug.Log("¡Receta completada!: " + resultado.ToString());
+
+                        // Rompemos el bucle principal para no fabricar múltiples recetas a la vez
+                        break;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No hay prefab asignado en el diccionario para: " + resultado);
+                    }
+                }
+            }
+        }
+    }
     private void ActualizarReceta()
     {
         Boolean esPrincipal = false;
@@ -91,7 +154,7 @@ public class Controlador : MonoBehaviour
                 if (ingredientesPresentes)
                 {
                     TipoElemento resultado = receta.resultado;
-                    //Continuar por aquí
+                    Debug.Log(resultado.ToString());
                 }
             }
         }
