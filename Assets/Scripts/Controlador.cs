@@ -13,10 +13,18 @@ public class Controlador : MonoBehaviour
     List<Elemento> elementosActivos;
     [SerializeField] List<Receta> recetas;
     [SerializeField] TextMeshProUGUI textoReceta;
-    [SerializeField] Dictionary<TipoElemento, GameObject> prefabs;
+    [SerializeField] TipoElementoPrefab[] prefabs;
      
     private int numUtensilios;
     private int numIngredientes;
+
+    [Serializable]
+    public struct TipoElementoPrefab
+    {
+        public TipoElemento tipoElemento;
+        public GameObject image;
+    }
+
 
     void Start()
     {
