@@ -89,6 +89,7 @@ public class Elemento:  MonoBehaviour
         {
             tipoElemento = tipoElemento
         });
+        Debug.Log("BALLS");
     }
 
     public void ElementoPerdido()

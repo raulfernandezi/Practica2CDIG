@@ -50,6 +50,7 @@ public class Controlador : MonoBehaviour
         elementosActivos.Add((Elemento)o);
         ActualizarReceta();
         ActualizarTextoReceta();
+        Debug.Log(numUtensilios);
     }
 
     private void DeteccionElementoPerdido(object o, ElementoEventArgs e)
@@ -65,6 +66,7 @@ public class Controlador : MonoBehaviour
         elementosActivos.Remove((Elemento)o);
         ActualizarReceta();
         ActualizarTextoReceta();
+        Debug.Log(numUtensilios);
     }
     private void ActualizarReceta_Ver2()
     {
