@@ -161,7 +161,7 @@ MonoBehaviour:
   - {fileID: 474812214}
   - {fileID: 889834411}
   - {fileID: 1891620422}
-  - {fileID: 236292742}
+  - {fileID: 0}
   recetas:
   - {fileID: 11400000, guid: 9487d72989d4b484198f5661a6cf3638, type: 2}
   - {fileID: 11400000, guid: 7e788def22363e44b94f5de15875206f, type: 2}
@@ -173,19 +173,19 @@ MonoBehaviour:
   textoReceta: {fileID: 545941690}
   prefabs:
   - tipoElemento: 9
-    image: {fileID: 1600730590943176910, guid: 72cd50033d549d240b3045839542aed5, type: 3}
+    gameObject: {fileID: 0}
   - tipoElemento: 10
-    image: {fileID: 4786428147951788529, guid: 9d5e5d856841a1e409d36b19912d4837, type: 3}
+    gameObject: {fileID: 0}
   - tipoElemento: 11
-    image: {fileID: 6574588018307606871, guid: 88b6ef7e06d78e045b1fd6b4997dead3, type: 3}
+    gameObject: {fileID: 0}
   - tipoElemento: 12
-    image: {fileID: 8573267731096978206, guid: 6d4010840fc3c9945b626e34db015d22, type: 3}
+    gameObject: {fileID: 0}
   - tipoElemento: 13
-    image: {fileID: 4770304671526774076, guid: 5b6d6f81458c4114b9f0ada8f820d58e, type: 3}
+    gameObject: {fileID: 0}
   - tipoElemento: 14
-    image: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
+    gameObject: {fileID: 0}
   - tipoElemento: 15
-    image: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
+    gameObject: {fileID: 0}
 --- !u!4 &103082408
 Transform:
   m_ObjectHideFlags: 0
@@ -212,8 +212,8 @@ GameObject:
   - component: {fileID: 236292746}
   - component: {fileID: 236292745}
   - component: {fileID: 236292744}
-  - component: {fileID: 236292742}
   - component: {fileID: 236292747}
+  - component: {fileID: 236292748}
   m_Layer: 0
   m_Name: ImageTargetSARTEN
   m_TagString: Untagged
@@ -221,19 +221,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &236292742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236292741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2322b769b90bc64b81c3ef43f700f23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tipoElemento: 7
 --- !u!114 &236292744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,19 +264,31 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 103082407}
         m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: Merequetengue
-        m_Mode: 5
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 236292741}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SARTEN
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 236292741}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &236292745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +351,19 @@ MonoBehaviour:
   mCastedBehaviour: {fileID: 236292745}
   mMeshFilter: {fileID: 0}
   mMeshRenderer: {fileID: 0}
+--- !u!114 &236292748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236292741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2322b769b90bc64b81c3ef43f700f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoElemento: 7
 --- !u!1 &474812213
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,13 +438,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 474812213}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -441,13 +453,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 474812213}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1043,13 +1055,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 889834410}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1058,13 +1070,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 889834410}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1450,13 +1462,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1265162753}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1465,13 +1477,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1265162753}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1743,13 +1755,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1419292828}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1758,13 +1770,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1419292828}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1906,13 +1918,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1427356969}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1921,13 +1933,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1427356969}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2180,13 +2192,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1614243794}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2195,13 +2207,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1614243794}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2419,13 +2431,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1845271815}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2434,13 +2446,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1845271815}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2657,13 +2669,13 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElemento
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1891620421}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2672,13 +2684,13 @@ MonoBehaviour:
   OnTargetLost:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: DeteccionElementoPerdido
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1891620421}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

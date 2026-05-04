@@ -1,120 +1,100 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Elemento;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class Controlador : MonoBehaviour
 {
     [SerializeField] Elemento[] elementos;
-    List<Elemento> elementosActivos;
     [SerializeField] List<Receta> recetas;
     [SerializeField] TextMeshProUGUI textoReceta;
-    [SerializeField] List<TipoElementoPrefab> prefabs;
-     
+    [SerializeField] List<TipoElementoGameObject> prefabs;
+
     private int numUtensilios;
     private int numIngredientes;
+    private Dictionary<TipoElemento, GameObject> elementosActivos;
 
     [Serializable]
-    public struct TipoElementoPrefab
+    public struct TipoElementoGameObject
     {
         public TipoElemento tipoElemento;
-        public GameObject prefab;
+        public GameObject gameObject;
     }
-
 
     void Start()
     {
-        elementosActivos = new List<Elemento>();
+        elementosActivos = new Dictionary<TipoElemento, GameObject>();
         numIngredientes = 0;
         numUtensilios = 0;
         ActualizarTextoReceta();
     }
 
-
-
-    public void Pterp() {
-        /*if (Elemento.EsUtensilio(tipoElemento)) {
-            numUtensilios++;
-        }
-        if (Elemento.EsIngredienteBasico(tipoElemento)) {
-            numIngredientes++;
-        }
-        //elementosActivos.Add((Elemento)o);
-        ActualizarReceta();
-        ActualizarTextoReceta();
-        Debug.Log(numUtensilios);*/
-    }
-
-    public void DeteccionElementoPerdido(object o, ElementoEventArgs e)
+    public void DeteccionElemento(GameObject targuet)
     {
-        if (Elemento.EsUtensilio(e.tipoElemento))
-        {
-            numUtensilios--;
-        }
-        if (Elemento.EsIngredienteBasico(e.tipoElemento))
-        {
-            numIngredientes--;
-        }
-        elementosActivos.Remove((Elemento)o);
-        ActualizarReceta();
+        TipoElemento tipoElemento = targuet.GetComponent<Elemento>().GetTipoElemento();
+
+        if (elementosActivos.ContainsKey(tipoElemento)) return;
+
+        TipoElementoGameObject configuracion = prefabs.Find(p => p.tipoElemento.Equals(tipoElemento));
+
+
+        GameObject nuevoObjeto = Instantiate(configuracion.gameObject, targuet.transform.position, targuet.transform.rotation);
+
+        nuevoObjeto.transform.SetParent(targuet.transform);
+
+        elementosActivos.Add(tipoElemento, nuevoObjeto);
+
+        if (Elemento.EsUtensilio(tipoElemento)) numUtensilios++;
+        if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes++;
+
+        ActualizarReceta_Ver2();
         ActualizarTextoReceta();
-        Debug.Log(numUtensilios);
     }
 
-    public void DeteccionElemento(TipoElemento tipoElemento) {
-        if (Elemento.EsUtensilio(tipoElemento))
+    public void DeteccionElementoPerdido(GameObject targuet)
+    {
+        TipoElemento tipoElemento = targuet.GetComponent<Elemento>().GetTipoElemento();
+        if (elementosActivos.ContainsKey(tipoElemento))
         {
-            numUtensilios++;
+            Destroy(elementosActivos[tipoElemento]);
+
+            elementosActivos.Remove(tipoElemento);
+
+            if (Elemento.EsUtensilio(tipoElemento)) numUtensilios--;
+            if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes--;
+
+            ActualizarReceta_Ver2();
+            ActualizarTextoReceta();
         }
-        if (Elemento.EsIngredienteBasico(tipoElemento))
-        {
-            numIngredientes++;
-        }
-        //elementosActivos.Add((Elemento)o);
-        //ActualizarReceta();
-        //ActualizarTextoReceta();
-        Debug.Log(numUtensilios);
     }
+
     private void ActualizarReceta_Ver2()
     {
         foreach (Receta receta in recetas)
         {
-            TipoElemento principal = receta.elementoPrincipal;
-            Elemento refPrincipal = null;
+            TipoElemento elementoPrincipal = receta.elementoPrincipal;
 
-            // 1. Buscamos si el elemento principal est� activo y guardamos su referencia
-            foreach (Elemento elemento in elementosActivos)
-            {
-                if (elemento.GetTipoElemento().Equals(principal))
-                {
-                    refPrincipal = elemento;
-                    break;
-                }
-            }
+            bool estaPrincipal = elementosActivos.ContainsKey(elementoPrincipal);
 
             // Si encontramos el elemento principal, comprobamos los ingredientes
-            if (refPrincipal != null)
+            if (estaPrincipal)
             {
                 // Copiamos la lista de ingredientes necesarios. 
                 // Usar Remove() es m�s seguro que un contador por si hay objetos del mismo tipo duplicados.
                 List<TipoElemento> ingredientesFaltantes = receta.ingredientes.ToList();
+                int ingredientesPresentes = 0;
 
-                foreach (Elemento elemento in elementosActivos)
+                foreach (TipoElemento elemento in ingredientesFaltantes)
                 {
                     // Si el elemento detectado es uno de los que nos falta, lo tachamos de la lista
-                    if (ingredientesFaltantes.Contains(elemento.GetTipoElemento()))
+                    if (elementosActivos.ContainsKey(elemento))
                     {
-                        ingredientesFaltantes.Remove(elemento.GetTipoElemento());
+                        ingredientesPresentes++;
                     }
-
-                    // Si ya no faltan ingredientes, dejamos de buscar
-                    if (ingredientesFaltantes.Count == 0) { break; }
+                    if (ingredientesFaltantes.Count == ingredientesPresentes) { break; }
                 }
 
                 // 2. Si est�n todos los ingredientes presentes, creamos el resultado
@@ -123,14 +103,20 @@ public class Controlador : MonoBehaviour
                     TipoElemento resultado = receta.resultado;
 
                     // Comprobamos que no est� presente en escena
-                    
-                    if (!elementosActivos.Any(e => e.GetTipoElemento().Equals(resultado)))
-                    {
-                        GameObject prefabAResultado = prefabs.Find((p)=>p.tipoElemento.Equals(resultado)).prefab;
 
-                        // Instanciamos el resultado en la posici�n del elemento principal
-                        // (Asumiendo que la clase Elemento hereda de MonoBehaviour y tiene un Transform)
-                        Instantiate(prefabAResultado, refPrincipal.transform.position, Quaternion.identity);
+                    if (!elementosActivos.ContainsKey(resultado))
+                    {
+                        GameObject prefabAResultado = prefabs.Find((p) => p.tipoElemento.Equals(resultado)).gameObject;
+
+                        GameObject padrePrincipal = elementosActivos[elementoPrincipal].gameObject.GetComponentInParent<GameObject>();
+
+                        GameObject nuevoObjeto = Instantiate(prefabAResultado, padrePrincipal.transform.position,
+                            padrePrincipal.transform.rotation);
+
+
+                        nuevoObjeto.transform.SetParent(padrePrincipal.transform);
+
+                        //TODO hay que ver como se eliminan los prefabs de ingredientes;
 
                         Debug.Log("�Receta completada!: " + resultado.ToString());
 
@@ -145,38 +131,10 @@ public class Controlador : MonoBehaviour
             }
         }
     }
-    private void ActualizarReceta()
+
+
+    private void ActualizarTextoReceta()
     {
-        Boolean esPrincipal = false;
-        foreach (Receta receta in recetas) {
-            TipoElemento principal = receta.elementoPrincipal;
-
-            foreach (Elemento elemento in elementosActivos) {
-               esPrincipal = elemento.GetTipoElemento().Equals(principal);
-               if (esPrincipal) { break; }
-            }
-
-            if (esPrincipal) {
-                List<TipoElemento> ingredientes = receta.ingredientes.ToList();
-                int presentes = ingredientes.Count;
-                Boolean ingredientesPresentes = false;
-                foreach (Elemento elemento in elementosActivos)
-                {
-                    if (ingredientes.Contains(elemento.GetTipoElemento())) { presentes--; }
-                    if (presentes == 0) {ingredientesPresentes = true; break; }
-                }
-
-                if (ingredientesPresentes)
-                {
-                    TipoElemento resultado = receta.resultado;
-                    Debug.Log(resultado.ToString());
-                }
-            }
-        }
-    }
-
-
-    private void ActualizarTextoReceta() {
         if (numUtensilios < Elemento.NUM_UTENSILIOS && numIngredientes < Elemento.NUM_INGREDIENTES)
         {
             textoReceta.text = "Faltan elementos";
@@ -192,7 +150,8 @@ public class Controlador : MonoBehaviour
             textoReceta.text = "Faltan ingredientes";
             textoReceta.color = Color.red;
         }
-        else {
+        else
+        {
             textoReceta.text = "Receta completa";
             textoReceta.color = Color.green;
         }
