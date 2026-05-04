@@ -5,6 +5,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+
 public class Elemento:  MonoBehaviour
 {
     private static TipoElemento[] utensilios = { TipoElemento.BANDEJA, TipoElemento.PLATO, TipoElemento.SARTEN };
@@ -17,12 +19,6 @@ public class Elemento:  MonoBehaviour
 
     public static int NUM_UTENSILIOS = Elemento.utensilios.Length;
     public static int NUM_INGREDIENTES = Elemento.ingredientesBasicos.Length;
-
-    public enum TipoElemento
-    {
-        PAN, LECHE, HUEVO, AZUCAR, CANELA, ACEITE, BANDEJA, SARTEN, PLATO, PANMOJADO, PANREBOZADO, SARTENACEITE, PANFRITO,
-        AZUCARCANELA, PANDULCE, TORRIJA
-    }
 
     bool mostrarNombre = false;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Receta", menuName = "Receta")]
 public class Receta : ScriptableObject
 {
-    public Elemento.TipoElemento[] ingredientes;
-    public Elemento.TipoElemento elementoPrincipal;
-    public Elemento.TipoElemento resultado;
+    public TipoElemento[] ingredientes;
+    public TipoElemento elementoPrincipal;
+    public TipoElemento resultado;
 }

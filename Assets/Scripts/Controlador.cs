@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Elemento;
+
 
 public class Controlador : MonoBehaviour
 {
@@ -28,11 +30,7 @@ public class Controlador : MonoBehaviour
 
     void Start()
     {
-        foreach(Elemento e in elementos)
-        {
-            e.elementoDetectado += DeteccionElemento;
-            e.elementoPerdido += DeteccionElementoPerdido;
-        }
+        elementosActivos = new List<Elemento>();
         numIngredientes = 0;
         numUtensilios = 0;
         ActualizarTextoReceta();
@@ -40,20 +38,20 @@ public class Controlador : MonoBehaviour
 
 
 
-    private void DeteccionElemento(object o, ElementoEventArgs e) {
-        if (Elemento.EsUtensilio(e.tipoElemento)) {
+    public void Pterp() {
+        /*if (Elemento.EsUtensilio(tipoElemento)) {
             numUtensilios++;
         }
-        if (Elemento.EsIngredienteBasico(e.tipoElemento)) {
+        if (Elemento.EsIngredienteBasico(tipoElemento)) {
             numIngredientes++;
         }
-        elementosActivos.Add((Elemento)o);
+        //elementosActivos.Add((Elemento)o);
         ActualizarReceta();
         ActualizarTextoReceta();
-        Debug.Log(numUtensilios);
+        Debug.Log(numUtensilios);*/
     }
 
-    private void DeteccionElementoPerdido(object o, ElementoEventArgs e)
+    public void DeteccionElementoPerdido(object o, ElementoEventArgs e)
     {
         if (Elemento.EsUtensilio(e.tipoElemento))
         {
@@ -66,6 +64,21 @@ public class Controlador : MonoBehaviour
         elementosActivos.Remove((Elemento)o);
         ActualizarReceta();
         ActualizarTextoReceta();
+        Debug.Log(numUtensilios);
+    }
+
+    public void DeteccionElemento(TipoElemento tipoElemento) {
+        if (Elemento.EsUtensilio(tipoElemento))
+        {
+            numUtensilios++;
+        }
+        if (Elemento.EsIngredienteBasico(tipoElemento))
+        {
+            numIngredientes++;
+        }
+        //elementosActivos.Add((Elemento)o);
+        //ActualizarReceta();
+        //ActualizarTextoReceta();
         Debug.Log(numUtensilios);
     }
 

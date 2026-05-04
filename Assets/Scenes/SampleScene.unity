@@ -275,45 +275,21 @@ MonoBehaviour:
   OnTargetFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
+      - m_Target: {fileID: 103082407}
+        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
+        m_MethodName: Merequetengue
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 236292742}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoDetectado
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: SARTEN
           m_BoolArgument: 0
         m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1614243800}
-        m_TargetAssemblyTypeName: Elemento, Assembly-CSharp
-        m_MethodName: ElementoPerdido
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &236292745
 MonoBehaviour:
   m_ObjectHideFlags: 0
