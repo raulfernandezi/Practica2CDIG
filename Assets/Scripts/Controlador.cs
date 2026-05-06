@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Controlador : MonoBehaviour
 {
-    [SerializeField] Elemento[] elementos;
+    [SerializeField] Transform[] elementos;
     [SerializeField] List<Receta> recetas;
     [SerializeField] TextMeshProUGUI textoReceta;
     [SerializeField] List<TipoElementoGameObject> prefabs;
@@ -29,21 +29,21 @@ public class Controlador : MonoBehaviour
         elementosActivos = new Dictionary<TipoElemento, GameObject>();
         numIngredientes = 0;
         numUtensilios = 0;
+        foreach (Transform elemento in elementos) {
+            DefaultObserverEventHandler e = elemento.GetComponent<DefaultObserverEventHandler>();
+            e.OnTargetFound.AddListener(() => DeteccionElemento(elemento));
+            e.OnTargetLost.AddListener(() => DeteccionElementoPerdido(elemento));
+        }
         ActualizarTextoReceta();
     }
 
-    public void DeteccionElemento(GameObject targuet)
+    public void DeteccionElemento(Transform targuet)
     {
         TipoElemento tipoElemento = targuet.GetComponent<Elemento>().GetTipoElemento();
 
         if (elementosActivos.ContainsKey(tipoElemento)) return;
 
-        TipoElementoGameObject configuracion = prefabs.Find(p => p.tipoElemento.Equals(tipoElemento));
-
-
-        GameObject nuevoObjeto = Instantiate(configuracion.gameObject, targuet.transform.position, targuet.transform.rotation);
-
-        nuevoObjeto.transform.SetParent(targuet.transform);
+        GameObject nuevoObjeto = targuet.GetChild(0).gameObject;
 
         elementosActivos.Add(tipoElemento, nuevoObjeto);
 
@@ -54,13 +54,11 @@ public class Controlador : MonoBehaviour
         ActualizarTextoReceta();
     }
 
-    public void DeteccionElementoPerdido(GameObject targuet)
+    public void DeteccionElementoPerdido(Transform targuet)
     {
         TipoElemento tipoElemento = targuet.GetComponent<Elemento>().GetTipoElemento();
         if (elementosActivos.ContainsKey(tipoElemento))
         {
-            Destroy(elementosActivos[tipoElemento]);
-
             elementosActivos.Remove(tipoElemento);
 
             if (Elemento.EsUtensilio(tipoElemento)) numUtensilios--;
@@ -79,26 +77,25 @@ public class Controlador : MonoBehaviour
 
             bool estaPrincipal = elementosActivos.ContainsKey(elementoPrincipal);
 
-            // Si encontramos el elemento principal, comprobamos los ingredientes
             if (estaPrincipal)
             {
                 // Copiamos la lista de ingredientes necesarios. 
                 // Usar Remove() es m�s seguro que un contador por si hay objetos del mismo tipo duplicados.
-                List<TipoElemento> ingredientesFaltantes = receta.ingredientes.ToList();
+                List<TipoElemento> ingredientesReceta = receta.ingredientes.ToList();
                 int ingredientesPresentes = 0;
 
-                foreach (TipoElemento elemento in ingredientesFaltantes)
+                foreach (TipoElemento elemento in ingredientesReceta)
                 {
                     // Si el elemento detectado es uno de los que nos falta, lo tachamos de la lista
                     if (elementosActivos.ContainsKey(elemento))
                     {
                         ingredientesPresentes++;
                     }
-                    if (ingredientesFaltantes.Count == ingredientesPresentes) { break; }
+                    if (ingredientesReceta.Count == ingredientesPresentes) { break; }
                 }
 
                 // 2. Si est�n todos los ingredientes presentes, creamos el resultado
-                if (ingredientesFaltantes.Count == 0)
+                if (ingredientesReceta.Count == ingredientesPresentes)
                 {
                     TipoElemento resultado = receta.resultado;
 
@@ -106,6 +103,7 @@ public class Controlador : MonoBehaviour
 
                     if (!elementosActivos.ContainsKey(resultado))
                     {
+                        Debug.Log("LLega");
                         GameObject prefabAResultado = prefabs.Find((p) => p.tipoElemento.Equals(resultado)).gameObject;
 
                         GameObject padrePrincipal = elementosActivos[elementoPrincipal].gameObject.GetComponentInParent<GameObject>();

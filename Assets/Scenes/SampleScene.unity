@@ -153,15 +153,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementos:
-  - {fileID: 1614243800}
-  - {fileID: 1845271820}
-  - {fileID: 1265162754}
-  - {fileID: 1419292829}
-  - {fileID: 1427356970}
-  - {fileID: 474812214}
-  - {fileID: 889834411}
-  - {fileID: 1891620422}
-  - {fileID: 0}
+  - {fileID: 1614243797}
+  - {fileID: 1845271819}
+  - {fileID: 1265162758}
+  - {fileID: 1419292833}
+  - {fileID: 1427356974}
+  - {fileID: 474812218}
+  - {fileID: 889834415}
+  - {fileID: 1891620426}
+  - {fileID: 236292746}
   recetas:
   - {fileID: 11400000, guid: 9487d72989d4b484198f5661a6cf3638, type: 2}
   - {fileID: 11400000, guid: 7e788def22363e44b94f5de15875206f, type: 2}
@@ -212,8 +212,8 @@ GameObject:
   - component: {fileID: 236292746}
   - component: {fileID: 236292745}
   - component: {fileID: 236292744}
-  - component: {fileID: 236292747}
   - component: {fileID: 236292748}
+  - component: {fileID: 236292749}
   m_Layer: 0
   m_Name: ImageTargetSARTEN
   m_TagString: Untagged
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -261,34 +261,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 236292741}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 236292741}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &236292745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +291,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 236292747}
+  mPreview: {fileID: 236292749}
 --- !u!4 &236292746
 Transform:
   m_ObjectHideFlags: 0
@@ -332,7 +308,20 @@ Transform:
   - {fileID: 1883996290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &236292747
+--- !u!114 &236292748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236292741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2322b769b90bc64b81c3ef43f700f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipoElemento: 7
+--- !u!114 &236292749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -351,19 +340,6 @@ MonoBehaviour:
   mCastedBehaviour: {fileID: 236292745}
   mMeshFilter: {fileID: 0}
   mMeshRenderer: {fileID: 0}
---- !u!114 &236292748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236292741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2322b769b90bc64b81c3ef43f700f23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tipoElemento: 7
 --- !u!1 &474812213
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -437,34 +413,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 474812213}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 474812213}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &474812217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -1054,34 +1006,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 889834410}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 889834410}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &889834414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1433,7 +1361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -1461,34 +1389,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1265162753}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1265162753}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1265162757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1726,7 +1630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -1754,34 +1658,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1419292828}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1419292828}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1419292832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,7 +1769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -1917,34 +1797,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1427356969}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1427356969}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1427356973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2163,7 +2019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -2191,34 +2047,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1614243794}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1614243794}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1614243796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2402,7 +2234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -2430,34 +2262,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1845271815}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1845271815}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1845271818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2640,7 +2448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886328de6a5c14cbb85854fdf1a5085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusFilter: 1
+  StatusFilter: 0
   UsePoseSmoothing: 0
   AnimationCurve:
     serializedVersion: 2
@@ -2668,34 +2476,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   OnTargetFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElemento
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1891620421}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 103082407}
-        m_TargetAssemblyTypeName: Controlador, Assembly-CSharp
-        m_MethodName: DeteccionElementoPerdido
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1891620421}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1891620425
 MonoBehaviour:
   m_ObjectHideFlags: 0
