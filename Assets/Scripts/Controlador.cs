@@ -103,16 +103,27 @@ public class Controlador : MonoBehaviour
 
                     if (!elementosActivos.ContainsKey(resultado))
                     {
-                        Debug.Log("LLega");
+                        
                         GameObject prefabAResultado = prefabs.Find((p) => p.tipoElemento.Equals(resultado)).gameObject;
-
-                        GameObject padrePrincipal = elementosActivos[elementoPrincipal].gameObject.GetComponentInParent<GameObject>();
-
-                        GameObject nuevoObjeto = Instantiate(prefabAResultado, padrePrincipal.transform.position,
-                            padrePrincipal.transform.rotation);
+                        Transform padrePrincipal = elementosActivos[elementoPrincipal].gameObject.transform.parent;
 
 
-                        nuevoObjeto.transform.SetParent(padrePrincipal.transform);
+                        GameObject nuevoObjeto = Instantiate(prefabAResultado, Vector3.zero,
+                            Quaternion.identity);
+
+
+
+                        nuevoObjeto.transform.SetParent(padrePrincipal);
+
+                        nuevoObjeto.transform.position = Vector3.zero;
+
+                        elementosActivos.Add(resultado,nuevoObjeto);
+
+                        elementosActivos[elementoPrincipal].gameObject.SetActive(false);
+                        foreach (TipoElemento elemento in ingredientesReceta)
+                        {
+                            elementosActivos[elemento].gameObject.SetActive(false);
+                        }
 
                         //TODO hay que ver como se eliminan los prefabs de ingredientes;
 

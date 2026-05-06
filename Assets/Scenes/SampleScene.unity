@@ -173,19 +173,19 @@ MonoBehaviour:
   textoReceta: {fileID: 545941690}
   prefabs:
   - tipoElemento: 9
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 1600730590943176910, guid: 72cd50033d549d240b3045839542aed5, type: 3}
   - tipoElemento: 10
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 4786428147951788529, guid: 9d5e5d856841a1e409d36b19912d4837, type: 3}
   - tipoElemento: 11
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 6574588018307606871, guid: 88b6ef7e06d78e045b1fd6b4997dead3, type: 3}
   - tipoElemento: 12
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 8573267731096978206, guid: 6d4010840fc3c9945b626e34db015d22, type: 3}
   - tipoElemento: 13
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 4770304671526774076, guid: 5b6d6f81458c4114b9f0ada8f820d58e, type: 3}
   - tipoElemento: 14
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
   - tipoElemento: 15
-    gameObject: {fileID: 0}
+    gameObject: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
 --- !u!4 &103082408
 Transform:
   m_ObjectHideFlags: 0
@@ -1977,6 +1977,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7268732675289400052, guid: 8b26824055c448245810dee180ca3c85, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a0aa26eea2ac3e479952dbc37c66502, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
