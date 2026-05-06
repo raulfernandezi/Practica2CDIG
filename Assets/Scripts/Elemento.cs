@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Vuforia;
 
 
 
@@ -30,11 +31,24 @@ public class Elemento:  MonoBehaviour
         }
     }
 
+    ObserverBehaviour observer;
+
+    void Start()
+    {
+        observer = GetComponent<ObserverBehaviour>();
+    }
+
     void OnGUI()
     {
-        if (mostrarNombre)
+        if (!mostrarNombre) return;
+        if (observer.TargetStatus.Status == Status.TRACKED)
         {
-            GUI.TextField(new Rect(10, 10, 200, 20), "Nombre de prueba");
+            Vector3 offset = transform.position + Vector3.right * 2.0f;
+            Vector3 posPantalla = Camera.main.WorldToScreenPoint(offset);
+            posPantalla.y = Screen.height - posPantalla.y;
+            GUIStyle estilo = new GUIStyle(GUI.skin.textField);
+            estilo.fontSize = 50;
+            GUI.Label(new Rect(posPantalla.x, posPantalla.y, 250, 60), tipoElemento.ToString(), estilo);
         }
     }
 
