@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Vuforia;
 
 
 
-public class Elemento:  MonoBehaviour
+public class Elemento : MonoBehaviour
 {
     private static TipoElemento[] utensilios = { TipoElemento.BANDEJA, TipoElemento.PLATO, TipoElemento.SARTEN };
 
@@ -17,6 +15,7 @@ public class Elemento:  MonoBehaviour
 
     private static TipoElemento[] elementosPrincipales = { TipoElemento.BANDEJA, TipoElemento.PLATO, TipoElemento.SARTEN, TipoElemento.HUEVO
             , TipoElemento.AZUCAR, TipoElemento.AZUCARCANELA, TipoElemento.SARTENACEITE};
+
 
     public static int NUM_UTENSILIOS = Elemento.utensilios.Length;
     public static int NUM_INGREDIENTES = Elemento.ingredientesBasicos.Length;
@@ -56,7 +55,8 @@ public class Elemento:  MonoBehaviour
 
     public EventHandler<ElementoEventArgs> elementoPerdido;
 
-    public class ElementoEventArgs : EventArgs {
+    public class ElementoEventArgs : EventArgs
+    {
         public TipoElemento tipoElemento;
     }
 
@@ -92,21 +92,5 @@ public class Elemento:  MonoBehaviour
     public static bool EsElementoPrincipal(TipoElemento elemento)
     {
         return GetListaElementosPrincipales().Contains(elemento);
-    }
-
-    public void ElementoDetectado() {
-        elementoDetectado?.Invoke(this, new ElementoEventArgs
-        {
-            tipoElemento = tipoElemento
-        });
-        Debug.Log("BALLS");
-    }
-
-    public void ElementoPerdido()
-    {
-        elementoPerdido?.Invoke(this, new ElementoEventArgs
-        {
-            tipoElemento = tipoElemento
-        });
     }
 }

@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 
 public class Controlador : MonoBehaviour
 {
-    [SerializeField] Transform[] elementos;
+    [SerializeField] Transform[] imageTarguets;
     [SerializeField] List<Receta> recetas;
     [SerializeField] TextMeshProUGUI textoReceta;
     [SerializeField] List<TipoElementoGameObject> prefabs;
@@ -16,6 +16,7 @@ public class Controlador : MonoBehaviour
     private int numUtensilios;
     private int numIngredientes;
     private Dictionary<TipoElemento, GameObject> elementosActivos;
+    private Dictionary<TipoElemento, GameObject> prefabsInstanciados;
 
     [Serializable]
     public struct TipoElementoGameObject
@@ -27,14 +28,39 @@ public class Controlador : MonoBehaviour
     void Start()
     {
         elementosActivos = new Dictionary<TipoElemento, GameObject>();
+        prefabsInstanciados = new Dictionary<TipoElemento, GameObject>();
         numIngredientes = 0;
         numUtensilios = 0;
-        foreach (Transform elemento in elementos) {
-            DefaultObserverEventHandler e = elemento.GetComponent<DefaultObserverEventHandler>();
-            e.OnTargetFound.AddListener(() => DeteccionElemento(elemento));
-            e.OnTargetLost.AddListener(() => DeteccionElementoPerdido(elemento));
+        foreach (Transform imageTarguet in imageTarguets)
+        {
+            DefaultObserverEventHandler observer = imageTarguet.GetComponent<DefaultObserverEventHandler>();
+            observer.OnTargetFound.AddListener(() => DeteccionElemento(imageTarguet));
+            observer.OnTargetLost.AddListener(() => DeteccionElementoPerdido(imageTarguet));
         }
+        InstanciarPrefabs();
         ActualizarTextoReceta();
+    }
+
+    private void InstanciarPrefabs()
+    {
+        foreach (TipoElementoGameObject prefab in prefabs)
+        {
+            Transform padre = BuscarPadre(prefab.tipoElemento);
+            GameObject nuevoObjeto = Instantiate(prefab.gameObject, padre,
+                            false);
+
+            nuevoObjeto.SetActive(false);
+            prefabsInstanciados.Add(prefab.tipoElemento, nuevoObjeto);
+            Debug.Log(prefab.tipoElemento);
+        }
+
+    }
+
+    private Transform BuscarPadre(TipoElemento tipo)
+    {
+        TipoElemento tipoPadre = recetas.Find(r => r.resultado.Equals(tipo)).elementoPrincipal;
+        Transform padre = imageTarguets.ToList().Find(i => i.GetComponent<Elemento>().GetTipoElemento().Equals(tipoPadre));
+        return padre;
     }
 
     public void DeteccionElemento(Transform targuet)
@@ -45,12 +71,14 @@ public class Controlador : MonoBehaviour
 
         GameObject nuevoObjeto = targuet.GetChild(0).gameObject;
 
+        nuevoObjeto.SetActive(true);
+
         elementosActivos.Add(tipoElemento, nuevoObjeto);
 
         if (Elemento.EsUtensilio(tipoElemento)) numUtensilios++;
         if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes++;
 
-        ActualizarReceta_Ver2();
+        ActualizarRecetaAumento();
         ActualizarTextoReceta();
     }
 
@@ -64,12 +92,12 @@ public class Controlador : MonoBehaviour
             if (Elemento.EsUtensilio(tipoElemento)) numUtensilios--;
             if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes--;
 
-            ActualizarReceta_Ver2();
+            ActualizarRecetaDisminucion();
             ActualizarTextoReceta();
         }
     }
 
-    private void ActualizarReceta_Ver2()
+    private void ActualizarRecetaAumento()
     {
         foreach (Receta receta in recetas)
         {
@@ -79,14 +107,12 @@ public class Controlador : MonoBehaviour
 
             if (estaPrincipal)
             {
-                // Copiamos la lista de ingredientes necesarios. 
-                // Usar Remove() es m�s seguro que un contador por si hay objetos del mismo tipo duplicados.
+
                 List<TipoElemento> ingredientesReceta = receta.ingredientes.ToList();
                 int ingredientesPresentes = 0;
 
                 foreach (TipoElemento elemento in ingredientesReceta)
                 {
-                    // Si el elemento detectado es uno de los que nos falta, lo tachamos de la lista
                     if (elementosActivos.ContainsKey(elemento))
                     {
                         ingredientesPresentes++;
@@ -94,53 +120,80 @@ public class Controlador : MonoBehaviour
                     if (ingredientesReceta.Count == ingredientesPresentes) { break; }
                 }
 
-                // 2. Si est�n todos los ingredientes presentes, creamos el resultado
                 if (ingredientesReceta.Count == ingredientesPresentes)
                 {
                     TipoElemento resultado = receta.resultado;
 
-                    // Comprobamos que no est� presente en escena
 
                     if (!elementosActivos.ContainsKey(resultado))
                     {
-                        
-                        GameObject prefabAResultado = prefabs.Find((p) => p.tipoElemento.Equals(resultado)).gameObject;
-                        Transform padrePrincipal = elementosActivos[elementoPrincipal].gameObject.transform.parent;
+
+                        GameObject nuevoElemento = prefabsInstanciados[resultado].gameObject;
+
+                        elementosActivos.Add(resultado, nuevoElemento);
 
 
-                        GameObject nuevoObjeto = Instantiate(prefabAResultado, Vector3.zero,
-                            Quaternion.identity);
+                        nuevoElemento.SetActive(true);
 
+                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR)
+                        {
+                            elementosActivos[elementoPrincipal].gameObject.SetActive(false);
 
-
-                        nuevoObjeto.transform.SetParent(padrePrincipal);
-
-                        nuevoObjeto.transform.position = Vector3.zero;
-
-                        elementosActivos.Add(resultado,nuevoObjeto);
-
-                        elementosActivos[elementoPrincipal].gameObject.SetActive(false);
+                        }
                         foreach (TipoElemento elemento in ingredientesReceta)
                         {
                             elementosActivos[elemento].gameObject.SetActive(false);
                         }
-
-                        //TODO hay que ver como se eliminan los prefabs de ingredientes;
-
-                        Debug.Log("�Receta completada!: " + resultado.ToString());
-
-                        // Rompemos el bucle principal para no fabricar m�ltiples recetas a la vez
-                        break;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("No hay prefab asignado en el diccionario para: " + resultado);
+                        Debug.Log("Receta completada!: " + resultado.ToString());
                     }
                 }
             }
         }
     }
 
+    private void ActualizarRecetaDisminucion()
+    {
+        foreach (Receta receta in recetas)
+        {
+            TipoElemento elementoResultado = receta.resultado;
+
+            bool estaResultado = elementosActivos.ContainsKey(elementoResultado);
+
+            if (estaResultado)
+            {
+
+                List<TipoElemento> ingredientesReceta = receta.ingredientes.ToList();
+                int ingredientesPresentes = 0;
+                TipoElemento elementoPrincipal = receta.elementoPrincipal;
+                foreach (TipoElemento elemento in ingredientesReceta)
+                {
+                    if (elementosActivos.ContainsKey(elemento))
+                    {
+                        ingredientesPresentes++;
+                    }
+                    if (ingredientesReceta.Count == ingredientesPresentes) { break; }
+                }
+
+                if (ingredientesReceta.Count > ingredientesPresentes || !elementosActivos.ContainsKey(elementoPrincipal))
+                {
+                    elementosActivos[elementoResultado].gameObject.SetActive(false);
+
+                    elementosActivos.Remove(elementoResultado);
+
+
+                    if (elementosActivos.ContainsKey(elementoPrincipal))
+                        elementosActivos[elementoPrincipal]?.gameObject.SetActive(true);
+
+
+                    foreach (TipoElemento elemento in ingredientesReceta)
+                    {
+                        if(elementosActivos.ContainsKey(elemento))
+                            elementosActivos[elemento]?.gameObject.SetActive(true);
+                    }
+                }
+            }
+        }
+    }
 
     private void ActualizarTextoReceta()
     {
