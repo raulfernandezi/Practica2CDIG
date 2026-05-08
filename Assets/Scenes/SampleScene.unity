@@ -183,9 +183,9 @@ MonoBehaviour:
   - tipoElemento: 13
     gameObject: {fileID: 4770304671526774076, guid: 5b6d6f81458c4114b9f0ada8f820d58e, type: 3}
   - tipoElemento: 14
-    gameObject: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
+    gameObject: {fileID: 7525517886693425460, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
   - tipoElemento: 15
-    gameObject: {fileID: 6807201330373950027, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
+    gameObject: {fileID: 4236025775041119790, guid: adb535d2b8eca2a439397d138029a9f7, type: 3}
 --- !u!4 &103082408
 Transform:
   m_ObjectHideFlags: 0

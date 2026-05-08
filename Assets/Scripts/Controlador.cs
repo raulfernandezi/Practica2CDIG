@@ -4,6 +4,8 @@ using System.Linq;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
+using Vuforia;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class Controlador : MonoBehaviour
@@ -18,6 +20,9 @@ public class Controlador : MonoBehaviour
     private Dictionary<TipoElemento, GameObject> elementosActivos;
     private Dictionary<TipoElemento, GameObject> prefabsInstanciados;
 
+    bool mostrarNombre;
+
+
     [Serializable]
     public struct TipoElementoGameObject
     {
@@ -31,6 +36,7 @@ public class Controlador : MonoBehaviour
         prefabsInstanciados = new Dictionary<TipoElemento, GameObject>();
         numIngredientes = 0;
         numUtensilios = 0;
+        mostrarNombre = false;
         foreach (Transform imageTarguet in imageTarguets)
         {
             DefaultObserverEventHandler observer = imageTarguet.GetComponent<DefaultObserverEventHandler>();
@@ -39,6 +45,62 @@ public class Controlador : MonoBehaviour
         }
         InstanciarPrefabs();
         ActualizarTextoReceta();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            mostrarNombre = !mostrarNombre;
+            Debug.Log(mostrarNombre);
+        }
+    }
+
+    void OnGUI()
+    {
+        if (!mostrarNombre) return;
+        foreach (Transform targuet in imageTarguets)
+        {
+            ObserverBehaviour observer = targuet.GetComponent<ObserverBehaviour>();
+            TipoElemento tipoElemento = targuet.GetComponent<Elemento>().GetTipoElemento();
+            bool trackeado = observer.TargetStatus.Status == Status.TRACKED;
+
+            if (!trackeado) continue;
+
+            int numHijos = targuet.childCount;
+            Transform hijo;
+            int maxHijoActivo = 0;
+            for (int i = 0; i < numHijos; i++)
+            {
+                if (targuet.GetChild(i).gameObject.activeInHierarchy)
+                {
+                    maxHijoActivo = i;
+                }
+            }
+
+            for (int i = 0; i <= maxHijoActivo; i++)
+            {
+                hijo = targuet.GetChild(i);
+                if (trackeado)
+                {
+                    Vector3 puntoMundo;
+                    string nombreAMostrar = hijo.name;
+                    if (hijo.gameObject.activeInHierarchy)
+                    {
+                        puntoMundo = hijo.transform.position + Vector3.right * 2.0f;
+                    }
+                    else
+                    {
+                        puntoMundo = targuet.transform.position + (Vector3.down * (maxHijoActivo - i) * 4f);
+                    }
+                    Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
+                    posPantalla.y = Screen.height - posPantalla.y;
+                    GUIStyle estilo = new GUIStyle(GUI.skin.textField);
+                    estilo.fontSize = 50;
+                    GUI.Label(new Rect(posPantalla.x, posPantalla.y, 300, 60), nombreAMostrar, estilo);
+                }
+            }
+        }
     }
 
     private void InstanciarPrefabs()
@@ -135,7 +197,8 @@ public class Controlador : MonoBehaviour
 
                         nuevoElemento.SetActive(true);
 
-                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR)
+                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR 
+                            || elementoPrincipal == TipoElemento.PLATO)
                         {
                             elementosActivos[elementoPrincipal].gameObject.SetActive(false);
 

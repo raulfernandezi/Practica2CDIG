@@ -20,37 +20,6 @@ public class Elemento : MonoBehaviour
     public static int NUM_UTENSILIOS = Elemento.utensilios.Length;
     public static int NUM_INGREDIENTES = Elemento.ingredientesBasicos.Length;
 
-    bool mostrarNombre = false;
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            mostrarNombre = !mostrarNombre;
-        }
-    }
-
-    ObserverBehaviour observer;
-
-    void Start()
-    {
-        observer = GetComponent<ObserverBehaviour>();
-    }
-
-    void OnGUI()
-    {
-        if (!mostrarNombre) return;
-        if (observer.TargetStatus.Status == Status.TRACKED)
-        {
-            Vector3 offset = transform.position + Vector3.right * 2.0f;
-            Vector3 posPantalla = Camera.main.WorldToScreenPoint(offset);
-            posPantalla.y = Screen.height - posPantalla.y;
-            GUIStyle estilo = new GUIStyle(GUI.skin.textField);
-            estilo.fontSize = 50;
-            GUI.Label(new Rect(posPantalla.x, posPantalla.y, 250, 60), tipoElemento.ToString(), estilo);
-        }
-    }
-
     public EventHandler<ElementoEventArgs> elementoDetectado;
 
     public EventHandler<ElementoEventArgs> elementoPerdido;
