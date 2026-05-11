@@ -27,7 +27,7 @@ public class Controlador : MonoBehaviour
     private bool recetaCompleta;
     private int indicePasoAnimacion;
     private float velocidadAnimacion;
-    private const float ALTURA_ANIMACION = 1.5f;
+    private const float ALTURA_ANIMACION = 1f;
 
     private TipoElemento[] ordenPasos = {
         TipoElemento.BANDEJA,
@@ -53,7 +53,7 @@ public class Controlador : MonoBehaviour
         mostrarNombre = false;
         recetaCompleta = false;
         indicePasoAnimacion = 0;
-        velocidadAnimacion = 2.0f;
+        velocidadAnimacion = 4.0f;
 
         foreach (Transform imageTarguet in imageTarguets)
         {
