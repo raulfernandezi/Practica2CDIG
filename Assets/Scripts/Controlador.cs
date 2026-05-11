@@ -27,7 +27,7 @@ public class Controlador : MonoBehaviour
     private bool recetaCompleta;
     private int indicePasoAnimacion;
     private float velocidadAnimacion;
-
+    private const float ALTURA_ANIMACION = 1.5f;
 
     private TipoElemento[] ordenPasos = {
         TipoElemento.BANDEJA,
@@ -115,15 +115,14 @@ public class Controlador : MonoBehaviour
     {
         foreach (TipoElementoGameObject prefab in prefabs)
         {
+            //TODO a veces no se pone bien el padre
             Transform padre = BuscarPadre(prefab.tipoElemento);
             GameObject nuevoObjeto = Instantiate(prefab.gameObject, padre,
                             false);
 
             nuevoObjeto.SetActive(false);
             prefabsInstanciados.Add(prefab.tipoElemento, nuevoObjeto);
-            Debug.Log(prefab.tipoElemento);
         }
-
     }
 
     private Transform BuscarPadre(TipoElemento tipo)
@@ -149,6 +148,10 @@ public class Controlador : MonoBehaviour
         if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes++;
 
         recetaCompleta = numUtensilios >= Elemento.NUM_UTENSILIOS && numIngredientes >= Elemento.NUM_INGREDIENTES;
+        if (recetaCompleta) { 
+            instanciaPanAnimado.transform.position = elementosActivos[TipoElemento.BANDEJA].gameObject.transform.position;
+            instanciaPanAnimado.transform.position += new Vector3(0, ALTURA_ANIMACION, 0);
+        }
         ActualizarRecetaAumento();
         ActualizarTextoReceta();
     }
@@ -216,7 +219,6 @@ public class Controlador : MonoBehaviour
                         {
                             elementosActivos[elemento].gameObject.SetActive(false);
                         }
-                        Debug.Log("Receta completada!: " + resultado.ToString());
                     }
                 }
             }
@@ -306,13 +308,15 @@ public class Controlador : MonoBehaviour
         {
             Transform targetPos = elementosActivos[destinoActual].transform.parent;
 
+            Vector3 targuet = targetPos.position;
+            targuet += new Vector3(0, ALTURA_ANIMACION, 0);
             instanciaPanAnimado.transform.position = Vector3.MoveTowards(
                 instanciaPanAnimado.transform.position,
-                targetPos.position,
+                targuet,
                 velocidadAnimacion * Time.deltaTime
             );
 
-            if (Vector3.Distance(instanciaPanAnimado.transform.position, targetPos.position) < 0.1f)
+            if (Vector3.Distance(instanciaPanAnimado.transform.position, targuet) < 0.1f)
             {
                 indicePasoAnimacion = (indicePasoAnimacion + 1) % ordenPasos.Length;
             }
