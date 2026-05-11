@@ -186,6 +186,7 @@ MonoBehaviour:
     gameObject: {fileID: 7525517886693425460, guid: 0673ae0e2e1e76841949ddc926977245, type: 3}
   - tipoElemento: 15
     gameObject: {fileID: 4236025775041119790, guid: adb535d2b8eca2a439397d138029a9f7, type: 3}
+  prefabPanAnimado: {fileID: 8203770676481001560, guid: c21318dccc31d5248a853f86dfad01a3, type: 3}
 --- !u!4 &103082408
 Transform:
   m_ObjectHideFlags: 0

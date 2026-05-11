@@ -22,21 +22,20 @@ public class Controlador : MonoBehaviour
 
 
     [Header("Configuración Animación")]
-    [SerializeField] GameObject prefabPanAnimado; // El modelo 3D que hará el recorrido
+    [SerializeField] GameObject prefabPanAnimado;
     private GameObject instanciaPanAnimado;
-    private bool recetaCompleta = false; // Flag para saber cuándo habilitar la animación
-    private int indicePasoAnimacion = 0;
-    private float velocidadAnimacion = 2.0f;
+    private bool recetaCompleta;
+    private int indicePasoAnimacion;
+    private float velocidadAnimacion;
 
-    // Orden estricto según el PDF: 
-    // Bandeja -> Huevo -> Sartén -> Azúcar (Mezcla) -> Plato
+
     private TipoElemento[] ordenPasos = {
-    TipoElemento.BANDEJA,
-    TipoElemento.HUEVO,
-    TipoElemento.SARTEN,
-    TipoElemento.AZUCAR,
-    TipoElemento.PLATO
-};
+        TipoElemento.BANDEJA,
+        TipoElemento.HUEVO,
+        TipoElemento.SARTEN,
+        TipoElemento.AZUCAR,
+        TipoElemento.PLATO
+    };
 
     [Serializable]
     public struct TipoElementoGameObject
@@ -52,6 +51,10 @@ public class Controlador : MonoBehaviour
         numIngredientes = 0;
         numUtensilios = 0;
         mostrarNombre = false;
+        recetaCompleta = false;
+        indicePasoAnimacion = 0;
+        velocidadAnimacion = 2.0f;
+
         foreach (Transform imageTarguet in imageTarguets)
         {
             DefaultObserverEventHandler observer = imageTarguet.GetComponent<DefaultObserverEventHandler>();
@@ -64,17 +67,8 @@ public class Controlador : MonoBehaviour
         if (prefabPanAnimado != null)
         {
             instanciaPanAnimado = Instantiate(prefabPanAnimado);
-            instanciaPanAnimado.SetActive(false); // Empieza oculto
+            instanciaPanAnimado.SetActive(false);
         }
-        InstanciarPrefabs();
-        ActualizarTextoReceta();
-
-        if (prefabPanAnimado != null)
-        {
-            instanciaPanAnimado = Instantiate(prefabPanAnimado);
-            instanciaPanAnimado.SetActive(false); // Empieza oculto
-        }
-        ActualizarTextoReceta();
     }
 
     void Update()
@@ -83,6 +77,15 @@ public class Controlador : MonoBehaviour
         {
             mostrarNombre = !mostrarNombre;
             Debug.Log(mostrarNombre);
+        }
+
+        if (Input.GetKey(KeyCode.A) && recetaCompleta)
+        {
+            MoverPanEnBucle();
+        }
+        else if (instanciaPanAnimado != null)
+        {
+            instanciaPanAnimado.SetActive(false);
         }
     }
 
@@ -145,6 +148,7 @@ public class Controlador : MonoBehaviour
         if (Elemento.EsUtensilio(tipoElemento)) numUtensilios++;
         if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes++;
 
+        recetaCompleta = numUtensilios >= Elemento.NUM_UTENSILIOS && numIngredientes >= Elemento.NUM_INGREDIENTES;
         ActualizarRecetaAumento();
         ActualizarTextoReceta();
     }
@@ -159,6 +163,7 @@ public class Controlador : MonoBehaviour
             if (Elemento.EsUtensilio(tipoElemento)) numUtensilios--;
             if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes--;
 
+            recetaCompleta = false;
             ActualizarRecetaDisminucion();
             ActualizarTextoReceta();
         }
@@ -266,50 +271,29 @@ public class Controlador : MonoBehaviour
     private void ActualizarTextoReceta()
     {
 
-        if (numUtensilios >= Elemento.NUM_UTENSILIOS && numIngredientes >= Elemento.NUM_INGREDIENTES)
+
+        if (numUtensilios < Elemento.NUM_UTENSILIOS && numIngredientes < Elemento.NUM_INGREDIENTES)
         {
-            textoReceta.text = "Receta completa";
-            textoReceta.color = Color.green;
-            recetaCompleta = true;
+            textoReceta.text = "Faltan elementos";
+            textoReceta.color = Color.red;
+        }
+        else if (numUtensilios < Elemento.NUM_UTENSILIOS)
+        {
+            textoReceta.text = "Faltan utensilios";
+            textoReceta.color = Color.red;
+        }
+        else if (numIngredientes < Elemento.NUM_INGREDIENTES)
+        {
+            textoReceta.text = "Faltan ingredientes";
+            textoReceta.color = Color.red;
         }
         else
         {
-            recetaCompleta = false;
-            if (numUtensilios < Elemento.NUM_UTENSILIOS && numIngredientes < Elemento.NUM_INGREDIENTES)
-            {
-                textoReceta.text = "Faltan elementos";
-                textoReceta.color = Color.red;
-            }
-            else if (numUtensilios < Elemento.NUM_UTENSILIOS)
-            {
-                textoReceta.text = "Faltan utensilios";
-                textoReceta.color = Color.red;
-            }
-            else if (numIngredientes < Elemento.NUM_INGREDIENTES)
-            {
-                textoReceta.text = "Faltan ingredientes";
-                textoReceta.color = Color.red;
-            }
-            else
-            {
-                textoReceta.text = "Receta completa";
-                textoReceta.color = Color.green;
-            }
+            textoReceta.text = "Receta completa";
+            textoReceta.color = Color.green;
         }
 
-    }
 
-    void Update()
-    {
-        // La animación solo corre si se mantiene 'A' pulsada y la receta está terminada
-        if (Input.GetKey(KeyCode.A) && recetaCompleta)
-        {
-            MoverPanEnBucle();
-        }
-        else if (instanciaPanAnimado != null)
-        {
-            instanciaPanAnimado.SetActive(false);
-        }
     }
 
     private void MoverPanEnBucle()
@@ -321,7 +305,6 @@ public class Controlador : MonoBehaviour
 
         if (elementosActivos.ContainsKey(destinoActual))
         {
-            // Buscamos la posición del ImageTarget (padre del objeto visual)
             Transform targetPos = elementosActivos[destinoActual].transform.parent;
 
             instanciaPanAnimado.transform.position = Vector3.MoveTowards(
