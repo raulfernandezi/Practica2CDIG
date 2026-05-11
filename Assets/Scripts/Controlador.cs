@@ -207,8 +207,7 @@ public class Controlador : MonoBehaviour
 
                         nuevoElemento.SetActive(true);
 
-                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR
-                            || elementoPrincipal == TipoElemento.PLATO)
+                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR)
                         {
                             elementosActivos[elementoPrincipal].gameObject.SetActive(false);
 
