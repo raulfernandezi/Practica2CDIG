@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
 using Vuforia;
-using static UnityEngine.GraphicsBuffer;
 
 
 public class Controlador : MonoBehaviour
@@ -67,39 +65,14 @@ public class Controlador : MonoBehaviour
 
             if (!trackeado) continue;
 
-            int numHijos = targuet.childCount;
-            Transform hijo;
-            int maxHijoActivo = 0;
-            for (int i = 0; i < numHijos; i++)
-            {
-                if (targuet.GetChild(i).gameObject.activeInHierarchy)
-                {
-                    maxHijoActivo = i;
-                }
-            }
 
-            for (int i = 0; i <= maxHijoActivo; i++)
-            {
-                hijo = targuet.GetChild(i);
-                if (trackeado)
-                {
-                    Vector3 puntoMundo;
-                    string nombreAMostrar = hijo.name;
-                    if (hijo.gameObject.activeInHierarchy)
-                    {
-                        puntoMundo = hijo.transform.position + Vector3.right * 2.0f;
-                    }
-                    else
-                    {
-                        puntoMundo = targuet.transform.position + (Vector3.down * (maxHijoActivo - i) * 4f);
-                    }
-                    Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
-                    posPantalla.y = Screen.height - posPantalla.y;
-                    GUIStyle estilo = new GUIStyle(GUI.skin.textField);
-                    estilo.fontSize = 50;
-                    GUI.Label(new Rect(posPantalla.x, posPantalla.y, 300, 60), nombreAMostrar, estilo);
-                }
-            }
+            Vector3 puntoMundo = targuet.transform.position + Vector3.down * 4f;
+
+            Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
+            posPantalla.y = Screen.height - posPantalla.y;
+            GUIStyle estilo = new GUIStyle(GUI.skin.textField);
+            estilo.fontSize = 50;
+            GUI.Label(new Rect(posPantalla.x, posPantalla.y, 300, 60), tipoElemento.ToString(), estilo);
         }
     }
 
@@ -197,7 +170,7 @@ public class Controlador : MonoBehaviour
 
                         nuevoElemento.SetActive(true);
 
-                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR 
+                        if (elementoPrincipal == TipoElemento.SARTEN || elementoPrincipal == TipoElemento.AZUCAR
                             || elementoPrincipal == TipoElemento.PLATO)
                         {
                             elementosActivos[elementoPrincipal].gameObject.SetActive(false);
@@ -250,7 +223,7 @@ public class Controlador : MonoBehaviour
 
                     foreach (TipoElemento elemento in ingredientesReceta)
                     {
-                        if(elementosActivos.ContainsKey(elemento))
+                        if (elementosActivos.ContainsKey(elemento))
                             elementosActivos[elemento]?.gameObject.SetActive(true);
                     }
                 }
