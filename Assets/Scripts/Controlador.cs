@@ -21,6 +21,23 @@ public class Controlador : MonoBehaviour
     bool mostrarNombre;
 
 
+    [Header("Configuración Animación")]
+    [SerializeField] GameObject prefabPanAnimado; // El modelo 3D que hará el recorrido
+    private GameObject instanciaPanAnimado;
+    private bool recetaCompleta = false; // Flag para saber cuándo habilitar la animación
+    private int indicePasoAnimacion = 0;
+    private float velocidadAnimacion = 2.0f;
+
+    // Orden estricto según el PDF: 
+    // Bandeja -> Huevo -> Sartén -> Azúcar (Mezcla) -> Plato
+    private TipoElemento[] ordenPasos = {
+    TipoElemento.BANDEJA,
+    TipoElemento.HUEVO,
+    TipoElemento.SARTEN,
+    TipoElemento.AZUCAR,
+    TipoElemento.PLATO
+};
+
     [Serializable]
     public struct TipoElementoGameObject
     {
@@ -42,6 +59,21 @@ public class Controlador : MonoBehaviour
             observer.OnTargetLost.AddListener(() => DeteccionElementoPerdido(imageTarguet));
         }
         InstanciarPrefabs();
+        ActualizarTextoReceta();
+
+        if (prefabPanAnimado != null)
+        {
+            instanciaPanAnimado = Instantiate(prefabPanAnimado);
+            instanciaPanAnimado.SetActive(false); // Empieza oculto
+        }
+        InstanciarPrefabs();
+        ActualizarTextoReceta();
+
+        if (prefabPanAnimado != null)
+        {
+            instanciaPanAnimado = Instantiate(prefabPanAnimado);
+            instanciaPanAnimado.SetActive(false); // Empieza oculto
+        }
         ActualizarTextoReceta();
     }
 
@@ -233,25 +265,75 @@ public class Controlador : MonoBehaviour
 
     private void ActualizarTextoReceta()
     {
-        if (numUtensilios < Elemento.NUM_UTENSILIOS && numIngredientes < Elemento.NUM_INGREDIENTES)
-        {
-            textoReceta.text = "Faltan elementos";
-            textoReceta.color = Color.red;
-        }
-        else if (numUtensilios < Elemento.NUM_UTENSILIOS)
-        {
-            textoReceta.text = "Faltan utensilios";
-            textoReceta.color = Color.red;
-        }
-        else if (numIngredientes < Elemento.NUM_INGREDIENTES)
-        {
-            textoReceta.text = "Faltan ingredientes";
-            textoReceta.color = Color.red;
-        }
-        else
+
+        if (numUtensilios >= Elemento.NUM_UTENSILIOS && numIngredientes >= Elemento.NUM_INGREDIENTES)
         {
             textoReceta.text = "Receta completa";
             textoReceta.color = Color.green;
+            recetaCompleta = true;
+        }
+        else
+        {
+            recetaCompleta = false;
+            if (numUtensilios < Elemento.NUM_UTENSILIOS && numIngredientes < Elemento.NUM_INGREDIENTES)
+            {
+                textoReceta.text = "Faltan elementos";
+                textoReceta.color = Color.red;
+            }
+            else if (numUtensilios < Elemento.NUM_UTENSILIOS)
+            {
+                textoReceta.text = "Faltan utensilios";
+                textoReceta.color = Color.red;
+            }
+            else if (numIngredientes < Elemento.NUM_INGREDIENTES)
+            {
+                textoReceta.text = "Faltan ingredientes";
+                textoReceta.color = Color.red;
+            }
+            else
+            {
+                textoReceta.text = "Receta completa";
+                textoReceta.color = Color.green;
+            }
+        }
+
+    }
+
+    void Update()
+    {
+        // La animación solo corre si se mantiene 'A' pulsada y la receta está terminada
+        if (Input.GetKey(KeyCode.A) && recetaCompleta)
+        {
+            MoverPanEnBucle();
+        }
+        else if (instanciaPanAnimado != null)
+        {
+            instanciaPanAnimado.SetActive(false);
+        }
+    }
+
+    private void MoverPanEnBucle()
+    {
+        if (instanciaPanAnimado == null) return;
+        instanciaPanAnimado.SetActive(true);
+
+        TipoElemento destinoActual = ordenPasos[indicePasoAnimacion];
+
+        if (elementosActivos.ContainsKey(destinoActual))
+        {
+            // Buscamos la posición del ImageTarget (padre del objeto visual)
+            Transform targetPos = elementosActivos[destinoActual].transform.parent;
+
+            instanciaPanAnimado.transform.position = Vector3.MoveTowards(
+                instanciaPanAnimado.transform.position,
+                targetPos.position,
+                velocidadAnimacion * Time.deltaTime
+            );
+
+            if (Vector3.Distance(instanciaPanAnimado.transform.position, targetPos.position) < 0.1f)
+            {
+                indicePasoAnimacion = (indicePasoAnimacion + 1) % ordenPasos.Length;
+            }
         }
     }
 }
