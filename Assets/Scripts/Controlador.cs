@@ -128,6 +128,10 @@ public class Controlador : MonoBehaviour
     private Transform BuscarPadre(TipoElemento tipo)
     {
         TipoElemento tipoPadre = recetas.Find(r => r.resultado.Equals(tipo)).elementoPrincipal;
+        if (tipoPadre == TipoElemento.SARTENACEITE)
+            tipoPadre = TipoElemento.SARTEN;
+        if (tipoPadre == TipoElemento.AZUCARCANELA)
+            tipoPadre = TipoElemento.AZUCAR;
         Transform padre = imageTarguets.ToList().Find(i => i.GetComponent<Elemento>().GetTipoElemento().Equals(tipoPadre));
         return padre;
     }
