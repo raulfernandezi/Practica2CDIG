@@ -105,11 +105,17 @@ public class Controlador : MonoBehaviour
 
             Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
             posPantalla.y = Screen.height - posPantalla.y;
+
+            Texture2D texturaFondo = new Texture2D(1, 1);
+            texturaFondo.SetPixel(0, 0, new Color(0.2f, 0.2f, 0.2f, 0.6f));
+            texturaFondo.Apply();
+
             GUIStyle estilo = new GUIStyle(GUI.skin.label);
             estilo.fontSize = 50;
             estilo.alignment = TextAnchor.MiddleCenter;
+            estilo.normal.background = texturaFondo;
 
-            float anchoRect = 400;
+            float anchoRect = 300;
             float altoRect = 60;
             float posX = posPantalla.x - (anchoRect / 2);
             GUI.Label(new Rect(posX, posPantalla.y, anchoRect, altoRect), tipoElemento.ToString(), estilo);
