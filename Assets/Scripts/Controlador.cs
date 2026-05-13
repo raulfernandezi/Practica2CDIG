@@ -105,9 +105,8 @@ public class Controlador : MonoBehaviour
 
             Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
             posPantalla.y = Screen.height - posPantalla.y;
-            GUIStyle estilo = new GUIStyle(GUI.skin.textField);
+            GUIStyle estilo = new GUIStyle(GUI.skin.label);
             estilo.fontSize = 50;
-            estilo.normal.background = null;
             GUI.Label(new Rect(posPantalla.x, posPantalla.y, 300, 60), tipoElemento.ToString(), estilo);
         }
     }
