@@ -1409,7 +1409,7 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: azucar
+  mTrackableName: azucar2
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/Practica2CDIG.xml
   mAspectRatio: 1
@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mObserverBehaviour: {fileID: 1265162757}
   mHiddenRoot: {fileID: 0}
-  mTargetName: azucar
+  mTargetName: azucar2
   mDatasetName: Vuforia/Practica2CDIG.xml
   mCastedBehaviour: {fileID: 1265162757}
   mMeshFilter: {fileID: 0}

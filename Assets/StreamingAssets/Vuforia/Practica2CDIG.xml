@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
+    <ImageTarget name="azucar2" size="5.000000 5.000000" />
     <ImageTarget name="sarten" size="5.000000 5.000000" />
     <ImageTarget name="plato" size="5.000000 5.000000" />
     <ImageTarget name="pan" size="5.000000 5.000000" />
