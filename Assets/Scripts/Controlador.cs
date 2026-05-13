@@ -107,6 +107,7 @@ public class Controlador : MonoBehaviour
             posPantalla.y = Screen.height - posPantalla.y;
             GUIStyle estilo = new GUIStyle(GUI.skin.textField);
             estilo.fontSize = 50;
+            estilo.normal.background = null;
             GUI.Label(new Rect(posPantalla.x, posPantalla.y, 300, 60), tipoElemento.ToString(), estilo);
         }
     }
