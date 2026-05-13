@@ -101,13 +101,18 @@ public class Controlador : MonoBehaviour
             if (!trackeado) continue;
 
 
-            Vector3 puntoMundo = targuet.transform.position + Vector3.down * 4f;
+            Vector3 puntoMundo = targuet.transform.position + new Vector3(0,0,-1) * 2f;
 
             Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
             posPantalla.y = Screen.height - posPantalla.y;
             GUIStyle estilo = new GUIStyle(GUI.skin.label);
             estilo.fontSize = 50;
-            GUI.Label(new Rect(posPantalla.x, posPantalla.y, 300, 60), tipoElemento.ToString(), estilo);
+            estilo.alignment = TextAnchor.MiddleCenter;
+
+            float anchoRect = 400;
+            float altoRect = 60;
+            float posX = posPantalla.x - (anchoRect / 2);
+            GUI.Label(new Rect(posX, posPantalla.y, anchoRect, altoRect), tipoElemento.ToString(), estilo);
         }
     }
 
