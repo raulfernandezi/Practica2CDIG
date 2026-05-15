@@ -19,15 +19,6 @@ public class Elemento : MonoBehaviour
     public static int NUM_UTENSILIOS = Elemento.utensilios.Length;
     public static int NUM_INGREDIENTES = Elemento.ingredientesBasicos.Length;
 
-    public EventHandler<ElementoEventArgs> elementoDetectado;
-
-    public EventHandler<ElementoEventArgs> elementoPerdido;
-
-    public class ElementoEventArgs : EventArgs
-    {
-        public TipoElemento tipoElemento;
-    }
-
     [SerializeField] private TipoElemento tipoElemento;
 
     public TipoElemento GetTipoElemento() { return this.tipoElemento; }
@@ -50,15 +41,5 @@ public class Elemento : MonoBehaviour
     public static bool EsIngredienteBasico(TipoElemento elemento)
     {
         return GetListaIngredientesBasicos().Contains(elemento);
-    }
-
-    public static List<TipoElemento> GetListaElementosPrincipales()
-    {
-        return elementosPrincipales.ToList();
-    }
-
-    public static bool EsElementoPrincipal(TipoElemento elemento)
-    {
-        return GetListaElementosPrincipales().Contains(elemento);
     }
 }

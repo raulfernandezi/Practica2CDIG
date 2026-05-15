@@ -76,7 +76,6 @@ public class Controlador : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             mostrarNombre = !mostrarNombre;
-            Debug.Log(mostrarNombre);
         }
 
         if (Input.GetKey(KeyCode.A) && recetaCompleta)
@@ -101,7 +100,7 @@ public class Controlador : MonoBehaviour
             if (!trackeado) continue;
 
 
-            Vector3 puntoMundo = targuet.transform.position + new Vector3(0,0,-1) * 2f;
+            Vector3 puntoMundo = targuet.transform.position + new Vector3(0, 0, -1) * 2f;
 
             Vector3 posPantalla = Camera.main.WorldToScreenPoint(puntoMundo);
             posPantalla.y = Screen.height - posPantalla.y;
@@ -126,7 +125,6 @@ public class Controlador : MonoBehaviour
     {
         foreach (TipoElementoGameObject prefab in prefabs)
         {
-            //TODO a veces no se pone bien el padre
             Transform padre = BuscarPadre(prefab.tipoElemento);
             GameObject nuevoObjeto = Instantiate(prefab.gameObject, padre,
                             false);
@@ -163,7 +161,8 @@ public class Controlador : MonoBehaviour
         if (Elemento.EsIngredienteBasico(tipoElemento)) numIngredientes++;
 
         recetaCompleta = numUtensilios >= Elemento.NUM_UTENSILIOS && numIngredientes >= Elemento.NUM_INGREDIENTES;
-        if (recetaCompleta) { 
+        if (recetaCompleta)
+        {
             instanciaPanAnimado.transform.position = elementosActivos[TipoElemento.BANDEJA].gameObject.transform.position;
             instanciaPanAnimado.transform.position += new Vector3(0, ALTURA_ANIMACION, 0);
         }
